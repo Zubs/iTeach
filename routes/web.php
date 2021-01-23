@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Import controllers
+use App\Http\Controllers\PagesController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [PagesController::class, 'index'])->name('landing');
+Route::get('/about', [PagesController::class, 'about'])->name('about');
+
+Route::group([
+	'prefix' => '/tutors',
+	'as' => 'tutors.'
+], function () {
+	Route::get('/', [TeachersController::class, 'index'])->name('index');
+});
+
+Route::group([
+	'prefix' => '/contact',
+	'as' => 'contact.'
+], function () {
+	Route::get('/', [ContactController::class, 'create'])->name('create');
 });
